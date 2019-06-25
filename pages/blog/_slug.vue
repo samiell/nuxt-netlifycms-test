@@ -4,20 +4,20 @@
     <p class="date">Posted by {{author}} on {{date}}</p>
     <div class="body" v-html="$md.render(body)"/>
     <p class="back"><a class="back-link" @click="$router.back()">Back</a></p>
-    <form name="comment" method="post" netlify>
+    <form name="comment" method="post" @submit.prevent="submitComment" netlify>
       <input type="hidden" name="form-name" value="comment" />
       <label class="form-label" for="name">
           Name:
         </label>
-        <input class="form-field" name="name" id="name" />
+        <input class="form-field" name="name" id="name" v-model="name"/>
         <label class="form-label" for="email">
           Email:
         </label>
-        <input class="form-field" name="email" id="email" />
+        <input class="form-field" name="email" id="email" v-model="email"/>
         <label class="form-label" for="message">
           Comment:
         </label>
-        <textarea class="form-field" name="message" id="message"></textarea>
+        <textarea class="form-field" name="message" id="message" v-model="comment"></textarea>
         <input class="form-button" type="submit" value="Submit" />
     </form>
   </div>
@@ -40,7 +40,34 @@ export default {
       body: post.body,
       title: post.title,
       author: post.author,
+      name: '',
+      email: '',
+      comment: '',
     };
+  },
+  methods: {
+    encode(data) {
+      return Object.keys(data)
+        .map(
+          key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+        )
+        .join("&");
+    },
+    submitComment() {
+      fetch(window.location, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: this.encode({
+          'form-name': 'comment',
+          name: this.name,
+          email: this.email,
+          comment: this.comment,
+        }),
+
+      })
+    }
   }
 }
 </script>
