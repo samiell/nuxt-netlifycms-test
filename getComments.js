@@ -1,7 +1,10 @@
 /**
 * Get the comments from Netlify
 */
-const fetch = require('node-fetch');
+var fetch = require('node-fetch');
+var fs = require('fs');
+
+const commentsDir = 'content/comments';
 
 const getComments = async function() {
   // set up our request with appropriate auth token and Form ID
@@ -10,10 +13,42 @@ const getComments = async function() {
   // Get the data from Netlify's submissions API
   let response = await fetch(url);
 
-  if (response.ok && response.statusCode === 200) {
-    let data = await response.json();
-    console.log("Got data as json");
-    console.log(data);
+  if (response.ok) {
+    let comments = await response.json();
+
+    //Divide up the comments by post
+    var commentsByPost = {};
+    comments.forEach(c => {
+      let d = c.data;
+      let info = {
+        name: d.name,
+        comment: d.comment,
+        id: c.id,
+      }
+      if (commentsByPost[d.post]){
+        commentsByPost[d.post].push(info);
+      }
+      else {
+        commentsByPost[d.post] = [info];
+      }
+    });
+    console.log(JSON.stringify(commentsByPost));
+
+    //Ensure the comments directory exists
+    if (!fs.existsSync(commentsDir)){
+      fs.mkdirSync(commentsDir);
+    }
+
+    //Write the comments for each post to a unique file
+    Object.keys(commentsByPost).forEach(id => {
+      fs.writeFile(`${commentsDir}/${id}.json`, JSON.stringify(commentsByPost[id], null, 2), function(err) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Comments saved for ${id}`);
+        }
+      });
+    });
   }
   else {
     console.log(`Couldn't get posts. Status code: ${response.statusCode}`);
