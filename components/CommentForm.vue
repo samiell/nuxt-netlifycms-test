@@ -1,6 +1,7 @@
 <template lang="html">
   <form name="comment" method="post" @submit.prevent="submitComment" netlify>
     <input type="hidden" name="form-name" value="comment" />
+    <input type="hidden" name="post" :value="post" />
     <label class="form-label" for="name">
       Name:
     </label>
@@ -29,6 +30,9 @@ export default {
       comment: '',
     };
   },
+  props: {
+    post: String,
+  },
   methods: {
     submitComment() {
       fetch('/', {
@@ -41,6 +45,7 @@ export default {
           name: this.name,
           email: this.email,
           comment: this.comment,
+          post: this.post,
         }),
 
       })

@@ -10,8 +10,12 @@ const getComments = async function() {
   // Get the data from Netlify's submissions API
   let response = await fetch(url);
 
-  let data = response.json();
-  console.log(data);
+  if (response.ok && response.statusCode === 200) {
+    let data = await response.json();
+    console.log("Got data as json");
+    console.log(data);
+
+  }
 }
 
 getComments();

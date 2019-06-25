@@ -4,7 +4,7 @@
     <p class="date">Posted by {{author}} on {{date}}</p>
     <div class="body" v-html="$md.render(body)"/>
     <p class="back"><a class="back-link" @click="$router.back()">Back</a></p>
-    <CommentForm/>
+    <CommentForm :post="post"/>
   </div>
 </template>
 
@@ -26,6 +26,7 @@ export default {
       body: post.body,
       title: post.title,
       author: post.author,
+      post: params.slug,
     };
   },
   components: {
