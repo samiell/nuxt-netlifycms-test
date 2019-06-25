@@ -4,6 +4,22 @@
     <p class="date">Posted by {{author}} on {{date}}</p>
     <div class="body" v-html="$md.render(body)"/>
     <p class="back"><a class="back-link" @click="$router.back()">Back</a></p>
+    <form name="comment" method="post" netlify>
+      <input type="hidden" name="form-name" value="comment" />
+      <label class="form-label" for="name">
+          Name:
+        </label>
+        <input class="form-field" name="name" id="name" />
+        <label class="form-label" for="email">
+          Email:
+        </label>
+        <input class="form-field" name="email" id="email" />
+        <label class="form-label" for="message">
+          Comment:
+        </label>
+        <textarea class="form-field" name="message" id="message"></textarea>
+        <input class="form-button" type="submit" value="Submit" />
+    </form>
   </div>
 </template>
 
