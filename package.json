@@ -9,13 +9,15 @@
     "serve": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "generate-with-comments": "node getComments.js && nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/markdownit": "^1.2.4",
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.0",
+    "node-fetch": "^2.6.0",
     "nuxt": "^2.6.3"
   },
   "devDependencies": {
