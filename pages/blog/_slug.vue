@@ -17,7 +17,7 @@
         <label class="form-label" for="message">
           Comment:
         </label>
-        <textarea class="form-field" name="message" id="message" v-model="comment"></textarea>
+        <textarea class="form-field" name="comment" id="comment" v-model="comment"></textarea>
         <input class="form-button" type="submit" value="Submit" />
     </form>
   </div>
