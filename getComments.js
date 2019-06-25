@@ -14,7 +14,9 @@ const getComments = async function() {
     let data = await response.json();
     console.log("Got data as json");
     console.log(data);
-
+  }
+  else {
+    console.log(`Couldn't get posts. Status code: ${response.statusCode}`);
   }
 }
 
